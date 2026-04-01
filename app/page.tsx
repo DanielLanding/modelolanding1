@@ -107,7 +107,7 @@ export default function GigantesPage() {
               ["#sobre", "SOBRE"],
               ["#edicao", "EDIÇÃO 2026"],
               ["#depoimentos", "DEPOIMENTOS"],
-              ["#experiencia", "ALTO PADRÃO"],
+              ["#experiencia", "EXPERIÊNCIA ALTO PADRÃO"],
             ].map(([href, label]) => (
               <a key={href} href={href} className="navbar-link">
                 {label}
