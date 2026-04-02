@@ -1,5 +1,6 @@
 import { MarqueeCarousel } from "@/components/marquee-carousel"
 import { WistiaVideo } from "@/components/wistia-video"
+import { MobileNav } from "@/components/mobile-nav"
 
 const TICKETS = [
   {
@@ -116,11 +117,12 @@ export default function GigantesPage() {
           </div>
           <a
             href="#ingressos"
-            className="shrink-0 text-white text-xs font-black px-6 py-3 rounded-full transition-all hover:opacity-90 hover:scale-105"
+            className="shrink-0 hidden lg:flex text-white text-xs font-black px-6 py-3 rounded-full transition-all hover:opacity-90 hover:scale-105"
             style={{ backgroundColor: "#0693e3", boxShadow: "0 4px 20px rgba(6,147,227,0.3)" }}
           >
             Resgatar 50% de desconto
           </a>
+          <MobileNav />
         </nav>
       </header>
 
@@ -183,19 +185,16 @@ export default function GigantesPage() {
         <MarqueeCarousel />
 
         {/* ─── SOBRE ─── */}
-        <section id="sobre" className="py-24 border-t border-white/5">
+        <section id="sobre" className="sobre-section py-24">
           <div className="max-w-6xl mx-auto px-6">
             {/* Side-by-side: título | divider | texto */}
             <div className="flex flex-col md:flex-row items-start gap-8 md:gap-12">
               {/* Esquerda — h1 */}
               <div className="md:w-2/5 shrink-0">
-                <p
-                  className="text-xs font-semibold tracking-[0.35em] uppercase mb-4"
-                  style={{ color: "#0693e3" }}
-                >
+                <p className="sobre-label text-xs font-semibold tracking-[0.35em] uppercase mb-4">
                   Sobre o evento
                 </p>
-                <h1 className="text-3xl md:text-4xl font-black uppercase leading-tight text-white">
+                <h1 className="sobre-heading text-3xl md:text-4xl font-black uppercase leading-tight">
                   O que é o{" "}
                   <span style={{ color: "#0693e3" }}>
                     GIGANTES DO MERCADO IMOBILIÁRIO?
@@ -204,15 +203,15 @@ export default function GigantesPage() {
               </div>
 
               {/* Linha divisória vertical */}
-              <div className="hidden md:block w-px bg-white/15 self-stretch" />
+              <div className="sobre-divider hidden md:block w-px self-stretch" />
 
               {/* Direita — parágrafos */}
               <div className="flex-1">
-                <p className="text-white/80 text-lg mb-5 leading-relaxed font-semibold">
+                <p className="sobre-lead text-lg mb-5 leading-relaxed font-semibold">
                   O evento que transforma corretores e imobiliárias, nas maiores
                   autoridades de seus mercados dentro e fora do Brasil!
                 </p>
-                <p className="text-white/50 text-base leading-relaxed">
+                <p className="sobre-body text-base leading-relaxed">
                   São dois dias de treinamento com o maior gerador de corretores
                   de sucesso do Brasil, desenhado exclusivamente para corretores,
                   gerentes de equipes de vendas e donos de imobiliária. São dois
@@ -244,7 +243,7 @@ export default function GigantesPage() {
         </section>
 
         {/* ─── EDIÇÃO 2026 ─── */}
-        <section id="edicao" className="py-24 px-6 border-t border-white/5">
+        <section id="edicao" className="edicao-section py-24 px-6">
           <div className="max-w-4xl mx-auto text-center">
             <p
               className="text-xs font-semibold tracking-[0.35em] uppercase mb-4"
@@ -252,7 +251,7 @@ export default function GigantesPage() {
             >
               Edição 2026
             </p>
-            <h2 className="text-3xl md:text-4xl font-black uppercase mb-12 text-white">
+            <h2 className="edicao-title text-3xl md:text-4xl font-black uppercase mb-12">
               Liberte seu potencial e domine a arte de vender
             </h2>
             <WistiaVideo videoId="hwa2nywg4h" />
@@ -615,12 +614,6 @@ export default function GigantesPage() {
                     </div>
                   ))}
                 </div>
-                <img
-                  src="/logo-ibraciv.svg"
-                  alt="IBRACIV"
-                  className="h-10 w-auto"
-                  style={{ opacity: 0.6 }}
-                />
               </div>
             </div>
           </div>
