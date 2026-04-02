@@ -1,87 +1,128 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { createPortal } from "react-dom"
 
 const NAV_LINKS = [
-  ["#ingressos", "INGRESSOS"],
-  ["#sobre", "SOBRE"],
-  ["#edicao", "EDIÇÃO 2026"],
-  ["#depoimentos", "DEPOIMENTOS"],
-  ["#experiencia", "ALTO PADRÃO"],
+  ["#hero", "Início"],
+  ["#ingressos", "Ingressos"],
+  ["#sobre", "Sobre o Evento"],
+  ["#edicao", "Edição 2026"],
+  ["#depoimentos", "Depoimentos"],
+  ["#experiencia", "Experiência Alto Padrão"],
 ]
 
 export function MobileNav() {
   const [open, setOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : ""
+    setMounted(true)
+    const check = () => setIsMobile(window.innerWidth < 1024)
+    check()
+    window.addEventListener("resize", check)
+    return () => window.removeEventListener("resize", check)
+  }, [])
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
     return () => { document.body.style.overflow = "" }
   }, [open])
 
-  return (
-    <>
-      {/* Hamburger button — só mobile */}
-      <button
-        type="button"
-        className="lg:hidden flex flex-col justify-center gap-1.5 p-2 shrink-0"
-        onClick={() => setOpen(true)}
-        aria-label="Abrir menu"
-      >
-        <span className="block w-6 h-0.5 bg-white rounded-full transition-all" />
-        <span className="block w-6 h-0.5 bg-white rounded-full transition-all" />
-        <span className="block w-4 h-0.5 bg-white rounded-full transition-all" />
-      </button>
+  useEffect(() => {
+    if (!isMobile && open) setOpen(false)
+  }, [isMobile, open])
 
-      {/* Backdrop */}
-      <div
-        className={`fixed inset-0 z-50 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${
-          open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
-        onClick={() => setOpen(false)}
-      />
+  if (!mounted || !isMobile) return null
+
+  const menu = (
+    <>
+      {/* Backdrop escuro */}
+      {open && (
+        <div
+          onClick={() => setOpen(false)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 99990,
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+          }}
+        />
+      )}
 
       {/* Drawer lateral */}
       <div
-        className={`fixed top-0 right-0 z-50 h-full w-72 flex flex-col transition-transform duration-300 ease-in-out ${
-          open ? "translate-x-0" : "translate-x-full"
-        }`}
         style={{
-          background: "rgba(8,8,20,0.98)",
-          borderLeft: "1px solid rgba(255,255,255,0.1)",
-          backdropFilter: "blur(24px)",
+          position: "fixed",
+          top: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 99991,
+          width: 300,
+          backgroundColor: "#060d1a",
+          borderLeft: open ? "1px solid rgba(212, 168, 67, 0.15)" : "none",
+          boxShadow: open ? "-20px 0 60px rgba(0, 0, 0, 0.7)" : "none",
+          display: "flex",
+          flexDirection: "column",
+          transform: open ? "translateX(0)" : "translateX(100%)",
+          transition: "transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)",
+          willChange: "transform",
         }}
       >
-        {/* Header do drawer */}
+        {/* Header do menu */}
         <div
-          className="flex items-center justify-between px-6 py-5"
-          style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "20px 24px",
+            borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
+          }}
         >
-          <img src="/logo-gigantes.svg" alt="Gigantes" className="h-8 w-auto" />
+          <span style={{ fontWeight: 900, fontSize: "1.2rem", letterSpacing: "0.03em" }}>
+            <span style={{ color: "#D4A843" }}>GIGANTES</span>{" "}
+            <span style={{ color: "#ffffff" }}>2026</span>
+          </span>
           <button
             type="button"
             onClick={() => setOpen(false)}
-            className="text-white/50 hover:text-white p-1 transition-colors"
             aria-label="Fechar menu"
+            style={{
+              background: "none",
+              border: "none",
+              padding: 4,
+              color: "rgba(255, 255, 255, 0.5)",
+              cursor: "pointer",
+            }}
           >
-            <svg width="20" height="20" fill="none" viewBox="0 0 20 20">
-              <path
-                d="M4 4l12 12M16 4L4 16"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
+            <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
+              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             </svg>
           </button>
         </div>
 
-        {/* Links */}
-        <nav className="flex flex-col px-6 py-8 gap-1">
+        {/* Links de navegação */}
+        <nav style={{ display: "flex", flexDirection: "column", padding: "28px 24px", gap: 2 }}>
           {NAV_LINKS.map(([href, label]) => (
             <a
               key={href}
               href={href}
-              className="text-white/60 hover:text-white text-sm font-bold tracking-widest uppercase transition-colors py-3 border-b border-white/5"
               onClick={() => setOpen(false)}
+              style={{
+                color: "rgba(255, 255, 255, 0.7)",
+                fontSize: "0.82rem",
+                fontWeight: 700,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase" as const,
+                textDecoration: "none",
+                padding: "14px 0",
+                borderBottom: "1px solid rgba(255, 255, 255, 0.04)",
+              }}
             >
               {label}
             </a>
@@ -89,17 +130,59 @@ export function MobileNav() {
         </nav>
 
         {/* CTA */}
-        <div className="px-6 mt-auto mb-10">
+        <div style={{ padding: "0 24px", marginTop: "auto", marginBottom: 40 }}>
           <a
             href="#ingressos"
-            className="block text-center text-white text-sm font-black px-6 py-4 rounded-full transition-all hover:opacity-90"
-            style={{ backgroundColor: "#0693e3", boxShadow: "0 4px 20px rgba(6,147,227,0.3)" }}
             onClick={() => setOpen(false)}
+            style={{
+              display: "block",
+              width: "100%",
+              textAlign: "center",
+              fontSize: "0.85rem",
+              fontWeight: 900,
+              padding: "16px 24px",
+              borderRadius: 8,
+              backgroundColor: "#D4A843",
+              color: "#0a0a0a",
+              textDecoration: "none",
+            }}
           >
             Resgatar 50% de desconto
           </a>
         </div>
       </div>
+    </>
+  )
+
+  return (
+    <>
+      {/* Hamburger fixo no topo direito */}
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-label="Abrir menu"
+        style={{
+          position: "fixed",
+          top: 14,
+          right: 16,
+          zIndex: 99989,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          gap: 5,
+          padding: 8,
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+        }}
+      >
+        <span style={{ display: "block", width: 26, height: 2, backgroundColor: "#fff", borderRadius: 2 }} />
+        <span style={{ display: "block", width: 26, height: 2, backgroundColor: "#fff", borderRadius: 2 }} />
+        <span style={{ display: "block", width: 18, height: 2, backgroundColor: "#fff", borderRadius: 2 }} />
+      </button>
+
+      {/* Portal: renderiza backdrop + drawer direto no body, fora de qualquer stacking context */}
+      {createPortal(menu, document.body)}
     </>
   )
 }
