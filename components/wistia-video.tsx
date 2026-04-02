@@ -4,9 +4,11 @@ import Script from "next/script"
 
 interface WistiaVideoProps {
   videoId: string
+  className?: string
+  aspectRatio?: string
 }
 
-export function WistiaVideo({ videoId }: WistiaVideoProps) {
+export function WistiaVideo({ videoId, className = "rounded-2xl", aspectRatio = "2.39 / 1" }: WistiaVideoProps) {
   return (
     <>
       <Script
@@ -17,22 +19,14 @@ export function WistiaVideo({ videoId }: WistiaVideoProps) {
         src="https://fast.wistia.com/assets/external/E-v1.js"
         strategy="lazyOnload"
       />
-      <div
-        className="rounded-xl overflow-hidden"
-        style={{ padding: "56.25% 0 0 0", position: "relative" }}
+      <div 
+        className={`w-full relative overflow-hidden ${className}`}
+        style={{ aspectRatio, backgroundColor: "transparent" }}
       >
-        <div
-          style={{
-            height: "100%",
-            left: 0,
-            position: "absolute",
-            top: 0,
-            width: "100%",
-          }}
-        >
+        <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}>
           <div
-            className={`wistia_embed wistia_async_${videoId}`}
-            style={{ height: "100%", width: "100%", position: "relative" }}
+            className={`wistia_embed wistia_async_${videoId} videoFoam=true`}
+            style={{ height: "100%", width: "100%", position: "relative", backgroundColor: "transparent" }}
           />
         </div>
       </div>
