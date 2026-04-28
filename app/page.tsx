@@ -227,6 +227,7 @@ export default function GigantesPage() {
                   src={src}
                   alt={`Participantes do evento ${i + 1}`}
                   className="sobre-foto-img"
+                  loading="lazy"
                 />
               </div>
             ))}
@@ -267,6 +268,7 @@ export default function GigantesPage() {
               src="/images/about-1.png"
               alt="Fundo Edição"
               className="w-full h-full object-cover blur-[50px] md:blur-[70px] scale-110 opacity-70"
+              loading="lazy"
             />
             <div className="absolute inset-0 bg-[#0a1628] mix-blend-color opacity-70" />
             <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628]/85 via-[#0a1628]/60 to-[#122340]/90" />
@@ -342,6 +344,7 @@ export default function GigantesPage() {
               src="/images/about-1.png"
               alt="Experiência Contexto"
               className="w-full h-full object-cover blur-[80px] md:blur-[40px] scale-125 opacity-80"
+              loading="lazy"
             />
             {/* Color Overlays para tingir de azul e escurecer */}
             <div className="absolute inset-0 bg-[#0a1628] mix-blend-color opacity-80" />
@@ -372,6 +375,7 @@ export default function GigantesPage() {
                     src="/images/design-1.webp"
                     alt="Mentoria Sala"
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
 
@@ -381,6 +385,7 @@ export default function GigantesPage() {
                     src="/iate"
                     alt="Iate em Alto Mar"
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
 
                   {/* Golden Seal - Fixado no canto superior esquerdo da imagem do Iate */}
@@ -389,6 +394,7 @@ export default function GigantesPage() {
                       src="/images/experiencia-boat.webp"
                       alt="Selo Experiência"
                       className="w-28 h-28 md:w-36 md:h-36 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
+                      loading="lazy"
                     />
                   </div>
                 </div>
@@ -415,6 +421,7 @@ export default function GigantesPage() {
                     src="/images/design-2-1.webp"
                     alt="Altemir Rocha"
                     className="w-16 h-16 rounded-full object-cover shrink-0"
+                    loading="lazy"
                   />
                   <div>
                     <p className="text-white/70 text-sm md:text-[15px] leading-relaxed">
@@ -550,6 +557,7 @@ export default function GigantesPage() {
               src="/images/experiencia-dsc.webp"
               alt="Plateia do evento"
               className="w-full h-full object-cover origin-center"
+              loading="lazy"
             />
           </div>
 
@@ -606,6 +614,7 @@ export default function GigantesPage() {
                 alt="Altemir Rocha"
                 className="w-full h-full object-cover object-top"
                 style={{ minHeight: "350px" }}
+                loading="lazy"
               />
               {/* Gradiente sutil na borda direita da foto para fundir com o preto */}
               <div className="hidden md:block absolute inset-y-0 right-0 w-[80px] bg-gradient-to-l from-[#050505] to-transparent" />
@@ -656,6 +665,7 @@ export default function GigantesPage() {
               src="/images/logo-ibraciv.svg"
               alt="IBRACIV"
               className="h-16 md:h-20 mx-auto mb-8"
+              loading="lazy"
             />
             <p className="text-gray-600 text-sm md:text-base leading-relaxed text-center italic">
               Instituto Brasileiro de Aperfeiçoamento para Corretores, Imobiliárias e Vendedores –

@@ -15,10 +15,6 @@ export function WistiaVideo({ videoId, className = "rounded-2xl", aspectRatio = 
         src={`https://fast.wistia.com/embed/medias/${videoId}.jsonp`}
         strategy="lazyOnload"
       />
-      <Script
-        src="https://fast.wistia.com/assets/external/E-v1.js"
-        strategy="lazyOnload"
-      />
       <div 
         className={`w-full relative overflow-hidden ${className}`}
         style={{ aspectRatio, backgroundColor: "transparent" }}

@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { Montserrat, Dancing_Script } from "next/font/google"
-import { CursorProvider } from "@/components/cursor-provider"
+import Script from "next/script"
 import { SmoothScroll } from "@/components/smooth-scroll"
 import "./globals.css"
 
@@ -26,10 +26,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR">
       <body className={`${montserrat.variable} ${dancingScript.variable} ${montserrat.className}`}>
-        <CursorProvider>
-          <SmoothScroll />
-          {children}
-        </CursorProvider>
+        <Script src="https://fast.wistia.com/assets/external/E-v1.js" strategy="afterInteractive" />
+        <SmoothScroll />
+        {children}
       </body>
     </html>
   )

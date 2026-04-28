@@ -79,6 +79,7 @@ export function MarqueeCarousel() {
               src={src}
               alt={`Participante ${i + 1}`}
               className="w-full h-full object-cover object-top"
+              loading="lazy"
             />
           </div>
         ))}

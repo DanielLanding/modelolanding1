@@ -8,10 +8,6 @@
     box-sizing: border-box;
   }
 
-  html {
-    scroll-behavior: smooth;
-  }
-
   body {
     background-color: #0a1628;
     color: #fff;
@@ -121,63 +117,6 @@
   }
 }
 
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(10, 22, 40, 0.35) 0%,
-    rgba(10, 22, 40, 0.45) 50%,
-    rgba(10, 22, 40, 0.75) 100%
-  );
-  pointer-events: none;
-}
-
-.hero-glass-card {
-  background: linear-gradient(135deg, rgba(20, 25, 35, 0.5) 0%, rgba(5, 10, 15, 0.8) 100%) !important;
-  backdrop-filter: blur(20px) saturate(140%);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.25) !important;
-  border-left: 1px solid rgba(255, 255, 255, 0.15) !important;
-  border-radius: 20px;
-  padding: 3.5rem 3rem 3rem;
-  max-width: 850px;
-  width: 95%;
-  margin: 0 auto;
-  box-shadow: 
-    0 25px 50px -12px rgba(0, 0, 0, 0.7),
-    0 0 0 1px rgba(255, 255, 255, 0.03),
-    inset 0 1px 1px rgba(255, 255, 255, 0.12),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.2);
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-glass-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -150%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.08),
-    transparent
-  );
-  transform: skewX(-20deg);
-  animation: card-shine 8s infinite linear;
-  pointer-events: none;
-}
-
-@keyframes card-shine {
-  0% { left: -150%; }
-  20% { left: 200%; }
-  100% { left: 200%; }
-}
-
 .hero-cta-btn {
   display: block;
   width: 100%;
@@ -274,14 +213,6 @@
   color: rgba(10, 10, 20, 0.75);
 }
 
-.sobre-body {
-  color: rgba(10, 10, 20, 0.5);
-}
-
-.sobre-divider {
-  background: rgba(10, 10, 20, 0.12);
-}
-
 /* ─── Sobre — fotos edge-to-edge ─── */
 .sobre-fotos-row {
   display: flex;
@@ -339,38 +270,10 @@
   padding: 3rem 1.5rem;
 }
 
-/* ─── Wave Separator ─── */
-.wave-separator {
-  width: 100%;
-  display: block;
-  line-height: 0;
-}
-
-.wave-separator svg {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
 /* ─── Edição / Video Section ─── */
 .edicao-section {
   background: linear-gradient(180deg, #1a2d4d 0%, #0f1d32 40%, #0a1628 100%);
   position: relative;
-}
-
-.edicao-title {
-  color: #fff;
-}
-
-/* ─── Resultados Section (white bg) ─── */
-.resultados-section {
-  background: #f5f5f7;
-  color: #0a0a14;
-}
-
-/* ─── Depoimentos Section (dark bg) ─── */
-.depoimentos-section {
-  background: var(--navy-dark);
 }
 
 /* ─── Experiência Alto Padrão ─── */
@@ -438,157 +341,6 @@
   padding: 0 1.5rem;
 }
 
-/* ─── Planos/Ingressos Section ─── */
-.planos-section {
-  background: var(--navy-dark);
-}
-
-.plano-card {
-  border-radius: 16px;
-  padding: 2rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  min-height: 420px;
-}
-
-.plano-card--standard {
-  background: rgba(22, 42, 74, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.plano-card--premium {
-  background: linear-gradient(160deg, rgba(212, 168, 67, 0.08) 0%, rgba(22, 42, 74, 0.5) 40%);
-  border: 1.5px solid var(--gold);
-}
-
-.plano-badge {
-  display: inline-block;
-  padding: 0.5rem 1.5rem;
-  font-weight: 800;
-  font-size: 0.75rem;
-  text-align: center;
-  border-radius: 4px;
-}
-
-.plano-badge--gold {
-  background: var(--gold);
-  color: #0a0a0a;
-}
-
-.plano-badge--dark {
-  background: var(--navy-dark);
-  color: #fff;
-}
-
-.plano-cta {
-  display: block;
-  width: 100%;
-  text-align: center;
-  padding: 0.875rem;
-  border-radius: 8px;
-  font-weight: 800;
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.plano-cta--gold {
-  background: var(--gold);
-  color: #0a0a0a;
-}
-
-.plano-cta--gold:hover {
-  background: var(--gold-light);
-}
-
-.plano-cta--dark {
-  background: var(--navy-dark);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.plano-cta--dark:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-/* ─── Ingressos em Grupo ─── */
-.grupo-section {
-  position: relative;
-  overflow: hidden;
-  min-height: 500px;
-}
-
-.grupo-bg-image {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-}
-
-.grupo-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(10, 22, 40, 0.3) 0%,
-    rgba(245, 245, 247, 0.6) 50%,
-    rgba(245, 245, 247, 0.95) 100%
-  );
-  z-index: 1;
-}
-
-.grupo-card {
-  position: relative;
-  z-index: 2;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  padding: 2.5rem;
-  max-width: 600px;
-  margin: 0 auto;
-  text-align: center;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-}
-
-.grupo-whatsapp-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  background: #25D366;
-  color: #fff;
-  font-weight: 800;
-  font-size: 0.8rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.grupo-whatsapp-btn:hover {
-  background: #1fb855;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
-}
-
-/* ─── Mentor Section ─── */
-.mentor-section {
-  background: linear-gradient(180deg, transparent 0%, var(--navy-dark) 5%, var(--navy-dark) 100%);
-}
-
-.mentor-title {
-  color: var(--gold);
-  font-style: italic;
-  font-weight: 900;
-}
-
 /* ─── IBRACIV Section ─── */
 .ibraciv-section {
   background: linear-gradient(180deg, #d8dce6 0%, #e8ecf2 100%);
@@ -609,17 +361,6 @@
 
 .scroll-icon {
   animation: bounce-down 2s ease-in-out infinite;
-}
-
-/* ─── Cursive script font ─── */
-.script-font {
-  font-family: var(--font-dancing), cursive, serif;
-  font-style: italic;
-}
-
-/* ─── Floating image shadows ─── */
-.float-img-shadow {
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.65);
 }
 
 /* ─── Shiny gold effect ─── */
@@ -671,50 +412,14 @@
   100% { left: 120%; }
 }
 
-/* User JSON Spec Styles */
-.card-container-spec {
-  background: rgba(12, 16, 25, 0.9) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4) !important;
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .golden-marquee-track,
+  .navbar-logo-gold,
+  .gold-shiny,
+  .gold-btn-shiny::after,
+  .scroll-icon {
+    animation: none !important;
+  }
 }
 
-.shiny-button-spec {
-  background: linear-gradient(135deg, #dfb75c, #c2973b) !important;
-  color: #0a0f18 !important;
-  border-radius: 8px !important;
-  font-weight: 800 !important;
-  box-shadow: 0 0 30px rgba(211, 168, 78, 0.25) !important;
-  position: relative;
-  overflow: hidden;
-  transition: box-shadow 0.3s ease;
-  z-index: 1; /* For pseudo-element */
-}
-
-.shiny-button-spec::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-  transform: skewX(-20deg);
-  transition: all 0.5s ease;
-  z-index: -1;
-}
-
-.shiny-button-spec:hover {
-  box-shadow: 0 0 45px rgba(211, 168, 78, 0.5) !important;
-}
-
-.shiny-button-spec:hover::after {
-  animation: shiny-sweep-hover 0.7s ease-out forwards;
-}
-
-@keyframes shiny-sweep-hover {
-  0% { left: -100%; }
-  100% { left: 200%; }
-}
