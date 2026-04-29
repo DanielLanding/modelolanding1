@@ -147,7 +147,7 @@ export function MobileNav() {
               textDecoration: "none",
             }}
           >
-            Resgatar 50% de desconto
+            Garantir meu Passaporte
           </a>
         </div>
       </div>
