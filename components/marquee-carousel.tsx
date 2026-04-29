@@ -19,7 +19,6 @@ export function MarqueeCarousel() {
             const rect = carouselRef.current.getBoundingClientRect()
             const viewHeight = window.innerHeight
 
-            // O foco total ocorre quando o carrossel sobe até uns 60% da tela (mais visível)
             const startBlurAt = viewHeight * 1.1
             const fullyClearAt = viewHeight * 0.65
 
