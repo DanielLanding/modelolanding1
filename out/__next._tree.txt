@@ -2,4 +2,4 @@
 :HL["/_next/static/media/5d14f12cc996866d-s.p.c70e96ee.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/e8f2fbee2754df70-s.p.9b7a96b4.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/images/GMI2026.png","image"]
-0:{"buildId":"4qhyxZBYIsMD88-eJ8Y2P","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
+0:{"buildId":"ERXGHN4BYAozEn0JoYgy0","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":true},"staleTime":300}

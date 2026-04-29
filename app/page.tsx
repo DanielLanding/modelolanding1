@@ -311,7 +311,7 @@ export default function GigantesPage() {
                 {/* Front Image (Yacht) - Menor e vinculada com o selo */}
                 <div className="absolute top-[50%] md:top-[55%] left-[25%] md:left-[22%] w-[70%] md:w-[65%] aspect-[16/10] shadow-[0_25px_50px_rgba(0,0,0,0.6)] z-10">
                   <img
-                    src="/iate"
+                    src="/images/3487729_1_696d188482f63.webp"
                     alt="Iate em Alto Mar"
                     className="w-full h-full object-cover"
                     loading="lazy"
@@ -347,7 +347,7 @@ export default function GigantesPage() {
                 </p>
                 <div className="flex items-start gap-5 mb-6">
                   <img
-                    src="/images/3487729_1_696d188482f63.webp"
+                    src="/images/design-2-1.webp"
                     alt="Altemir Rocha"
                     className="w-16 h-16 rounded-full object-cover shrink-0"
                     loading="lazy"
@@ -476,21 +476,37 @@ export default function GigantesPage() {
         </section>
 
         {/* ─── IBRACIV SECTION ─── */}
-        <section className="ibraciv-section py-16 md:py-24 px-6">
-          <div className="max-w-3xl mx-auto">
-            <img
-              src="/images/logo-ibraciv.svg"
-              alt="IBRACIV"
-              className="h-16 md:h-20 mx-auto mb-8"
-              loading="lazy"
-            />
-            <p className="text-gray-600 text-sm md:text-base leading-relaxed text-center italic">
+        <section
+          className="w-full px-6 flex justify-center"
+          style={{
+            background: "#dfe3ed",
+            paddingTop: "clamp(60px, 9vw, 110px)",
+            paddingBottom: "clamp(60px, 9vw, 110px)",
+          }}
+        >
+          <div className="w-full max-w-3xl flex flex-col items-center gap-8">
+            <p
+              className="text-center italic"
+              style={{ maxWidth: "720px", color: "#555", fontSize: "clamp(0.8rem, 1vw, 0.95rem)", lineHeight: 1.75 }}
+            >
               Instituto Brasileiro de Aperfeiçoamento para Corretores, Imobiliárias e Vendedores –
               Uma escola completa e pronta para lhe ensinar, na prática, o que fazer para ter
               sucesso em todas as áreas da sua vida no mercado imobiliário, com o propósito de
               transformar pessoas, elevar o nível da profissão e levar prosperidade a todos que
               tem paixão por vencer.
             </p>
+            <img
+              src="/images/ibraciv_logo.png"
+              alt="IBRACIV"
+              loading="lazy"
+              style={{
+                height: "clamp(28px, 3vw, 40px)",
+                width: "clamp(140px, 14vw, 190px)",
+                objectFit: "contain",
+                opacity: 0.55,
+                filter: "grayscale(100%) brightness(0.4)",
+              }}
+            />
           </div>
         </section>
       </main>
