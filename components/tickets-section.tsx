@@ -2,6 +2,24 @@
 
 import { useState } from "react"
 
+const PLAN_WEBHOOK: Record<string, string> = {
+  "LIGHT": "https://webhook.sellflux.app/v2/webhook/custom/cc1ae8b959635b6b68df14a670c361d7",
+  "PREMIUM": "https://webhook.sellflux.app/v2/webhook/custom/2207d6bce3bb9550051d770898bc48d4",
+  "EXPERIÊNCIA\nALTO PADRÃO": "https://webhook.sellflux.app/v2/webhook/custom/784e012a6794d812924a5c54616b3fe5",
+}
+
+const PLAN_TAG: Record<string, string> = {
+  "LIGHT": "GMI2026-LIGHT",
+  "PREMIUM": "GMI2026-PREMIUM",
+  "EXPERIÊNCIA\nALTO PADRÃO": "GMI2026-ALTOPADRAO",
+}
+
+function normalizePhone(raw: string): string {
+  const digits = raw.replace(/\D/g, "")
+  if (digits.startsWith("55") && digits.length >= 12) return `+${digits}`
+  return `+55${digits}`
+}
+
 const TICKETS = [
   {
     name: "LIGHT",
@@ -116,18 +134,22 @@ function PassportModal({
     e.preventDefault()
     setLoading(true)
 
-    // Fire-and-forget — a falha no SellFlux nunca bloqueia o checkout
     try {
-      await fetch("/api/capture-lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nome: form.nome,
-          email: form.email,
-          whatsapp: form.whatsapp,
-          plano: ticket.name,
-        }),
-      })
+      const webhookUrl = PLAN_WEBHOOK[ticket.name]
+      if (webhookUrl) {
+        await fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: form.nome,
+            email: form.email,
+            phone: normalizePhone(form.whatsapp),
+            source: "gigantes-2026",
+            tags: [PLAN_TAG[ticket.name]],
+          }),
+          signal: AbortSignal.timeout(8_000),
+        })
+      }
     } catch {
       // silently swallow — o redirecionamento ocorre de qualquer forma
     }
