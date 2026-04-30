@@ -1,13 +1,17 @@
 import { NextRequest, NextResponse } from "next/server"
 
-// Maps the internal plan name to a SellFlux tag slug
-const PLAN_TAG: Record<string, string> = {
-  "LIGHT": "passaporte-light",
-  "PREMIUM": "passaporte-premium",
-  "EXPERIÊNCIA\nALTO PADRÃO": "passaporte-alto-padrao",
+const PLAN_WEBHOOK: Record<string, string> = {
+  "LIGHT": "https://webhook.sellflux.app/v2/webhook/custom/cc1ae8b959635b6b68df14a670c361d7",
+  "PREMIUM": "https://webhook.sellflux.app/v2/webhook/custom/2207d6bce3bb9550051d770898bc48d4",
+  "EXPERIÊNCIA\nALTO PADRÃO": "https://webhook.sellflux.app/v2/webhook/custom/784e012a6794d812924a5c54616b3fe5",
 }
 
-// Normalises any Brazilian phone input to E.164 (+55XXXXXXXXXXX)
+const PLAN_TAG: Record<string, string> = {
+  "LIGHT": "GMI2026-LIGHT",
+  "PREMIUM": "GMI2026-PREMIUM",
+  "EXPERIÊNCIA\nALTO PADRÃO": "GMI2026-ALTOPADRAO",
+}
+
 function normalizePhone(raw: string): string {
   const digits = raw.replace(/\D/g, "")
   if (digits.startsWith("55") && digits.length >= 12) return `+${digits}`
@@ -15,14 +19,6 @@ function normalizePhone(raw: string): string {
 }
 
 export async function POST(req: NextRequest) {
-  const apiKey = process.env.SELLFLUX_API_KEY
-  if (!apiKey) {
-    return NextResponse.json(
-      { error: "SELLFLUX_API_KEY not configured" },
-      { status: 500 }
-    )
-  }
-
   const body = await req.json()
   const { nome, email, whatsapp, plano } = body as {
     nome: string
@@ -31,35 +27,29 @@ export async function POST(req: NextRequest) {
     plano: string
   }
 
-  // SellFlux lead DTO
+  const webhookUrl = PLAN_WEBHOOK[plano]
+  if (!webhookUrl) {
+    return NextResponse.json({ error: "Plano inválido" }, { status: 400 })
+  }
+
   const dto = {
     name: nome,
     email,
     phone: normalizePhone(whatsapp),
     source: "gigantes-2026",
-    tags: [
-      "gigantes-2026",
-      PLAN_TAG[plano] ?? "passaporte",
-    ],
+    tags: [PLAN_TAG[plano]],
   }
 
-  const sfRes = await fetch("https://api.sellflux.com/v1/leads", {
+  const sfRes = await fetch(webhookUrl, {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dto),
-    // Abort if SellFlux takes more than 8 s — never block the checkout redirect
     signal: AbortSignal.timeout(8_000),
   })
 
   if (!sfRes.ok) {
     const detail = await sfRes.text().catch(() => sfRes.statusText)
-    return NextResponse.json(
-      { error: detail },
-      { status: sfRes.status }
-    )
+    return NextResponse.json({ error: detail }, { status: sfRes.status })
   }
 
   const data = await sfRes.json().catch(() => null)
