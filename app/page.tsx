@@ -81,12 +81,17 @@ export default function GigantesPage() {
                 alt="Gigantes do Mercado Imobiliário"
                 className="w-52 md:w-80 mb-5 md:mb-6"
               />
-              <div className="flex items-center gap-2 md:gap-3 text-[12px] md:text-[16px] text-white/90 mb-5 md:mb-6 font-medium">
+              <div className="flex flex-col items-center md:flex-row md:items-center gap-2 md:gap-3 text-[12px] md:text-[16px] text-white/90 mb-5 md:mb-6 font-medium">
                 <svg width="18" height="18" fill="none" viewBox="0 0 24 24" className="shrink-0 opacity-80">
                   <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2" />
                   <path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
-                <span className="tracking-wide">Balneário Camboriú | 15, 16 e 17 de Outubro de 2026</span>
+                <span className="tracking-wide text-center">
+                  <span>Balneário Camboriú</span>
+                  <span className="hidden md:inline"> | </span>
+                  <br className="md:hidden" />
+                  <span>15, 16 e 17 de Outubro de 2026</span>
+                </span>
               </div>
               <h1 className="text-[18px] md:text-[27px] lg:text-[32px] font-black uppercase leading-[1.35] md:leading-[1.4] text-white text-center max-w-[850px] mb-6 md:mb-8">
                 O EVENTO QUE ENTREGA{" "}
