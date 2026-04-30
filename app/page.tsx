@@ -9,27 +9,27 @@ import { MetaPixels } from "@/components/meta-pixels"
 const TESTIMONIALS = [
   {
     videoId: "vhbwaetg7w",
-    name: "Maria de Fátima (Proprietária da Fada Imóveis)",
-    quote:
-      '"Nossa imobiliária faturava R$ 8 milhões por ano. Conheci o Altamir no Gigantes 2023, entrei para a mentoria e, naquele mesmo ano, recebemos a meta de R$ 60 milhões e vendemos R$ 69 milhões. Após renovar, em apenas 7 meses, já vendemos R$ 99 milhões. A metodologia dele causou um desenvolvimento estrondoso em mim, como gestora, e em todas as nossas corretoras."',
-  },
-  {
-    videoId: "91hbvw7p7c",
     name: "Amauri Nobre (Corretor de Imóveis e Proprietário da Amauri Assessoria Imobiliária)",
     quote:
       '"Quando conheceu o Altemir e seus ensinamentos, já atuava como corretor de imóveis e trabalhava como pintor nos finais de semana para complementar a renda. Após aplicar a metodologia fechou 300 negócios MCMV em 12 meses. Hoje é case de sucesso, destaque na sua cidade e região, bateu todos os recordes de vendas incluindo R$ 10 milhões em 30 dias e R$ 1 milhão em comissão em menos de 1 ano."',
   },
   {
-    videoId: "tzu9xexwqc",
+    videoId: "91hbvw7p7c",
     name: "Joel Gossmann (Corretor e Proprietário da Joel Imóveis)",
     quote:
       '"Eu era garçom e vendedor de loja. Decidi empreender e abri minha própria imobiliária no quarto da minha casa. Hoje, em uma cidade de 20 mil habitantes, ganhei pelo terceiro mês consecutivo o prêmio de R$ 1 milhão em comissão no ano e bati R$ 10 milhões em vendas em 30 dias. Saí de um carro velho para ter uma caminhoneta do ano, apartamento na praia e mais de dez terrenos. Devo tudo ao Corretor Vencedor."',
   },
   {
-    videoId: "5to2qn2ycj",
+    videoId: "tzu9xexwqc",
     name: "Rafael e Marelise (Sócios proprietários da Imobiliária Lajeado)",
     quote:
       '"Logo após adquirirmos 100% da sociedade da imobiliária, com a mentoria Supremus reestruturar tudo, formamos uma equipe totalmente nova, com pessoas que nunca tinham trabalhado no ramo imobiliário. O apoio que recebemos foi fundamental para reorganizar o time em tempo recorde e nos trazer agilidade, pois não podemos viver sem faturamento. Em 3 meses aumentamos 130% o nosso faturamento"',
+  },
+  {
+    videoId: "5to2qn2ycj",
+    name: "Maria de Fátima (Proprietária da Fada Imóveis)",
+    quote:
+      '"Nossa imobiliária faturava R$ 8 milhões por ano. Conheci o Altamir no Gigantes 2023, entrei para a mentoria e, naquele mesmo ano, recebemos a meta de R$ 60 milhões e vendemos R$ 69 milhões. Após renovar, em apenas 7 meses, já vendemos R$ 99 milhões. A metodologia dele causou um desenvolvimento estrondoso em mim, como gestora, e em todas as nossas corretoras."',
   },
 ]
 
@@ -165,6 +165,7 @@ export default function GigantesPage() {
                   alt={`Participantes do evento ${i + 1}`}
                   className="sobre-foto-img"
                   loading="lazy"
+                  style={i === 2 ? { objectPosition: "center 15%" } : undefined}
                 />
               </div>
             ))}

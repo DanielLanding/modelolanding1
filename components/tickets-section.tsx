@@ -30,7 +30,7 @@ const TICKETS = [
     confirmacaoUrl: "/confirmacao/light",
     type: "standard" as const,
     items: [
-      "Passaporte dia 1 e 2 do evento",
+      "Passaporte dias 1 e 2 do evento",
       "Caneta Corretor Vencedor",
       "Bloco de anotações GIGANTES",
       "Material dos patrocinadores",
@@ -52,7 +52,7 @@ const TICKETS = [
     confirmacaoUrl: "/confirmacao/premium",
     type: "standard" as const,
     items: [
-      "Passaporte dia 1 e 2 do evento",
+      "Passaporte dias 1 e 2 do evento",
       "Caneta Corretor Vencedor",
       "Bloco de anotações GIGANTES",
       "Material dos patrocinadores",
@@ -76,7 +76,7 @@ const TICKETS = [
     confirmacaoUrl: "/confirmacao/alto-padrao",
     type: "premium" as const,
     items: [
-      "Passaporte dia 1, 2 e 3 do evento",
+      "Passaporte dias 1, 2 e 3 do evento",
       "Caneta Corretor Vencedor",
       "Bloco de anotações GIGANTES",
       "Material dos patrocinadores",
@@ -337,11 +337,7 @@ export function TicketsSection() {
 
               const titleClass = isPremium ? "gold-shiny" : "text-white"
 
-              const btnClass = isPremium
-                ? "bg-[#D4A843] text-[#0a1628] hover:bg-[#e0b44f] shadow-[0_4px_20px_rgba(212,168,67,0.3)]"
-                : isMid
-                  ? "border border-white/30 text-white hover:border-white/50 hover:bg-white/5 bg-transparent"
-                  : "border border-white/20 text-white/80 hover:border-white/40 hover:text-white bg-transparent"
+              const btnClass = "bg-[#D4A843] text-[#0a1628] hover:bg-[#e0b44f] shadow-[0_4px_20px_rgba(212,168,67,0.35)] font-black"
 
               const dividerClass = isPremium ? "bg-[#D4A843]/20" : isMid ? "bg-white/15" : "bg-white/8"
               const checkClass = isPremium ? "text-[#22c55e]" : isMid ? "text-[#22c55e]/80" : "text-[#22c55e]/70"
