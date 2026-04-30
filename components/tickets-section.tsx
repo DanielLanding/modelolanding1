@@ -6,8 +6,8 @@ const TICKETS = [
   {
     name: "LIGHT",
     price: "R$ 797,00",
-    lote2: "R$ 1.197,00",
-    lote3: "R$ 1.497,00",
+    lote2: "R$ 997,00",
+    lote3: "R$ 1.197,00",
     checkoutUrl: "#",
     type: "standard" as const,
     items: [
@@ -26,9 +26,9 @@ const TICKETS = [
   },
   {
     name: "PREMIUM",
-    price: "R$ 1.297,00",
-    lote2: "R$ 1.697,00",
-    lote3: "R$ 2.197,00",
+    price: "R$ 997,00",
+    lote2: "R$ 1.297,00",
+    lote3: "R$ 1.597,00",
     checkoutUrl: "#",
     type: "standard" as const,
     items: [
@@ -49,9 +49,9 @@ const TICKETS = [
   },
   {
     name: "EXPERIÊNCIA\nALTO PADRÃO",
-    price: "R$ 5.997,00",
-    lote2: "R$ 6.997,00",
-    lote3: "R$ 7.997,00",
+    price: "R$ 3.997,00",
+    lote2: "R$ 4.997,00",
+    lote3: "R$ 5.997,00",
     checkoutUrl: "#",
     type: "premium" as const,
     items: [
