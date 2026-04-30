@@ -8,7 +8,7 @@ const TICKETS = [
     price: "R$ 797,00",
     lote2: "R$ 997,00",
     lote3: "R$ 1.197,00",
-    checkoutUrl: "#",
+    checkoutUrl: "https://payfast.greenn.com.br/pre-checkout/e24ebcg",
     type: "standard" as const,
     items: [
       "Passaporte dia 1 e 2 do evento",
@@ -29,7 +29,7 @@ const TICKETS = [
     price: "R$ 997,00",
     lote2: "R$ 1.297,00",
     lote3: "R$ 1.597,00",
-    checkoutUrl: "#",
+    checkoutUrl: "https://payfast.greenn.com.br/pre-checkout/qmzud7r",
     type: "standard" as const,
     items: [
       "Passaporte dia 1 e 2 do evento",
@@ -52,7 +52,7 @@ const TICKETS = [
     price: "R$ 3.997,00",
     lote2: "R$ 4.997,00",
     lote3: "R$ 5.997,00",
-    checkoutUrl: "#",
+    checkoutUrl: "https://payfast.greenn.com.br/pre-checkout/xdh7huk",
     type: "premium" as const,
     items: [
       "Passaporte dia 1 e 2 do evento",
@@ -190,7 +190,7 @@ function PassportModal({
           )}
 
           <p className="text-white/60 text-sm mb-6 leading-relaxed">
-            Preencha seus dados para garantir sua vaga e ser redirecionado ao checkout.
+            Preencha seus dados para garantir seu passaporte.
           </p>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
