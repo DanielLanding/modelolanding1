@@ -1,3 +1,4 @@
+import Script from "next/script"
 import { MarqueeCarousel } from "@/components/marquee-carousel"
 import { WistiaVideo } from "@/components/wistia-video"
 import { MobileNav } from "@/components/mobile-nav"
@@ -229,7 +230,17 @@ export default function GigantesPage() {
           {/* Vídeo - Limitado em largura e altura para não empurrar o texto para fora da tela */}
           <div className="w-full max-w-[1550px] mx-auto px-4 md:px-10 flex flex-1 flex-col justify-end relative z-10 pb-0 overflow-hidden">
             <div className="w-full overflow-hidden bg-transparent mb-[-2px]">
-              <WistiaVideo videoId="hwa2nywg4h" className="w-full" />
+              <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
+                <iframe
+                  src="https://player.vimeo.com/video/1188150574?h=fe667f9997&badge=0&autopause=0&player_id=0&app_id=58479"
+                  frameBorder="0"
+                  allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+                  title="GMI 2026 PROMO"
+                />
+              </div>
+              <Script src="https://player.vimeo.com/api/player.js" strategy="afterInteractive" />
             </div>
           </div>
         </section>
