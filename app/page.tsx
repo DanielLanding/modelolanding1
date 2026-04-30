@@ -93,7 +93,7 @@ export default function GigantesPage() {
                   <span>Balneário Camboriú</span>
                   <span className="hidden md:inline"> | </span>
                   <br className="md:hidden" />
-                  <span>15, 16 e 17 de Outubro de 2026</span>
+                  <span>15 e 16 de Outubro de 2026</span>
                 </span>
               </div>
               <h1 className="text-[18px] md:text-[27px] lg:text-[32px] font-black uppercase leading-[1.35] md:leading-[1.4] text-white text-center max-w-[850px] mb-6 md:mb-8">

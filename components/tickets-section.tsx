@@ -62,7 +62,7 @@ const TICKETS = [
       "Café durante todo o evento",
       "Biscoitos durante todo o evento",
       "Pasta Corretor Vencedor",
-      "MESAS EM FRENTE AO PALCO",
+      " MESAS atrás do passaporte Alto Padrão",
       "Participação no grupo exclusivo do Whats do Gigantes 2026",
       "Apostila do evento inclusa",
     ],
