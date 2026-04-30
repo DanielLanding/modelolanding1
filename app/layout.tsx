@@ -22,11 +22,11 @@ const BASE_URL = "https://gigantes.ibraciv.com"
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: "Gigantes do Mercado Imobiliário 2026 | Balneário Camboriú",
-    template: "%s | Gigantes do Mercado Imobiliário 2026",
+    default: "Gigantes do Mercado Imobiliário",
+    template: "%s | Gigantes do Mercado Imobiliário",
   },
   description:
-    "O maior evento de vendas imobiliárias do Brasil. 2 dias de imersão com Altemir Rocha em Balneário Camboriú, 15 e 16 de outubro de 2026. Garanta seu passaporte!",
+    "O evento que entrega a maior inteligência de conversão de vendas do mercado imobiliário. 2 dias de imersão com Altemir Rocha em Balneário Camboriú, 15 e 16 de outubro de 2026.",
   keywords: [
     "gigantes do mercado imobiliário",
     "evento imobiliário 2026",
@@ -70,9 +70,9 @@ export const metadata: Metadata = {
     locale: "pt_BR",
     url: BASE_URL,
     siteName: "Gigantes do Mercado Imobiliário",
-    title: "Gigantes do Mercado Imobiliário 2026 | Balneário Camboriú",
+    title: "Gigantes do Mercado Imobiliário",
     description:
-      "O maior evento de vendas imobiliárias do Brasil. 2 dias de imersão com Altemir Rocha em Balneário Camboriú, 15 e 16 de outubro de 2026. Garanta seu passaporte!",
+      "O evento que entrega a maior inteligência de conversão de vendas do mercado imobiliário. 2 dias de imersão com Altemir Rocha em Balneário Camboriú, 15 e 16 de outubro de 2026.",
     images: [
       {
         url: "/banner.jpeg",
@@ -85,9 +85,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Gigantes do Mercado Imobiliário 2026 | Balneário Camboriú",
+    title: "Gigantes do Mercado Imobiliário",
     description:
-      "O maior evento de vendas imobiliárias do Brasil. 15 e 16 de outubro em Balneário Camboriú com Altemir Rocha.",
+      "O evento que entrega a maior inteligência de conversão de vendas do mercado imobiliário. 2 dias de imersão com Altemir Rocha em Balneário Camboriú, 15 e 16 de outubro de 2026.",
     images: ["/banner.jpeg"],
   },
 }
