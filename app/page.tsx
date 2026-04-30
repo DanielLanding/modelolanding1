@@ -3,6 +3,7 @@ import { WistiaVideo } from "@/components/wistia-video"
 import { MobileNav } from "@/components/mobile-nav"
 import { TicketsSection } from "@/components/tickets-section"
 import { WhatsAppGroupButton } from "@/components/whatsapp-group-button"
+import { MetaPixels } from "@/components/meta-pixels"
 
 const TESTIMONIALS = [
   {
@@ -34,6 +35,7 @@ const TESTIMONIALS = [
 export default function GigantesPage() {
   return (
     <div className="min-h-screen text-white overflow-x-hidden" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+      <MetaPixels />
       {/* ─── MOBILE MENU (fora da navbar para evitar stacking context) ─── */}
       <MobileNav />
 
