@@ -338,12 +338,7 @@ export default function GigantesPage() {
                   EXPERIÊNCIA<br />ALTO PADRÃO
                 </h2>
                 <p className="text-white/85 text-lg md:text-[1.1rem] leading-relaxed mb-8">
-                  A experiência Alto Padrão é uma mentoria de dia inteiro em um
-                  ambiente premium, com o Altemir Rocha, Daniel Zaboto e mais 30
-                  mentorados. Aprofundando o conhecimento sobre como ler pessoas
-                  em 10 minutos com material impresso (apostila) inclusa. Para
-                  que você saia de lá decifrando como corresponder a cada cliente
-                  e entrar na mente e no coração deles rapidamente.
+                  A experiência Alto Padrão é uma mentoria de dia inteiro em um ambiente premium, com o Altemir Rocha, Daniel Zaboto e mais 30 mentorados. Aprofundando o conhecimento sobre como ler pessoas em 10 minutos e A Engenharia da Persusão; com material impresso (apostila) inclusa. Para que você saia de lá decifrando como responder a cada cliente e entrar na mente e no coração deles rapidamente.
                 </p>
                 <div className="flex items-start gap-5 mb-6">
                   <img
