@@ -76,7 +76,7 @@ const TICKETS = [
     confirmacaoUrl: "/confirmacao/alto-padrao",
     type: "premium" as const,
     items: [
-      "Passaporte dia 1 e 2 do evento",
+      "Passaporte dia 1, 2 e 3 do evento",
       "Caneta Corretor Vencedor",
       "Bloco de anotações GIGANTES",
       "Material dos patrocinadores",
