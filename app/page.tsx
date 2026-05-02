@@ -1,39 +1,42 @@
+import Script from "next/script"
 import { MarqueeCarousel } from "@/components/marquee-carousel"
 import { WistiaVideo } from "@/components/wistia-video"
 import { MobileNav } from "@/components/mobile-nav"
 import { TicketsSection } from "@/components/tickets-section"
 import { WhatsAppGroupButton } from "@/components/whatsapp-group-button"
+import { MetaPixels } from "@/components/meta-pixels"
 
 const TESTIMONIALS = [
   {
     videoId: "vhbwaetg7w",
-    name: "Maria de Fátima (Proprietária da Fada Imóveis)",
-    quote:
-      '"Nossa imobiliária faturava R$ 8 milhões por ano. Conheci o Altamir no Gigantes 2023, entrei para a mentoria e, naquele mesmo ano, recebemos a meta de R$ 60 milhões e vendemos R$ 69 milhões. Após renovar, em apenas 7 meses, já vendemos R$ 99 milhões. A metodologia dele causou um desenvolvimento estrondoso em mim, como gestora, e em todas as nossas corretoras."',
-  },
-  {
-    videoId: "91hbvw7p7c",
     name: "Amauri Nobre (Corretor de Imóveis e Proprietário da Amauri Assessoria Imobiliária)",
     quote:
       '"Quando conheceu o Altemir e seus ensinamentos, já atuava como corretor de imóveis e trabalhava como pintor nos finais de semana para complementar a renda. Após aplicar a metodologia fechou 300 negócios MCMV em 12 meses. Hoje é case de sucesso, destaque na sua cidade e região, bateu todos os recordes de vendas incluindo R$ 10 milhões em 30 dias e R$ 1 milhão em comissão em menos de 1 ano."',
   },
   {
-    videoId: "tzu9xexwqc",
+    videoId: "91hbvw7p7c",
     name: "Joel Gossmann (Corretor e Proprietário da Joel Imóveis)",
     quote:
       '"Eu era garçom e vendedor de loja. Decidi empreender e abri minha própria imobiliária no quarto da minha casa. Hoje, em uma cidade de 20 mil habitantes, ganhei pelo terceiro mês consecutivo o prêmio de R$ 1 milhão em comissão no ano e bati R$ 10 milhões em vendas em 30 dias. Saí de um carro velho para ter uma caminhoneta do ano, apartamento na praia e mais de dez terrenos. Devo tudo ao Corretor Vencedor."',
   },
   {
-    videoId: "5to2qn2ycj",
+    videoId: "tzu9xexwqc",
     name: "Rafael e Marelise (Sócios proprietários da Imobiliária Lajeado)",
     quote:
       '"Logo após adquirirmos 100% da sociedade da imobiliária, com a mentoria Supremus reestruturar tudo, formamos uma equipe totalmente nova, com pessoas que nunca tinham trabalhado no ramo imobiliário. O apoio que recebemos foi fundamental para reorganizar o time em tempo recorde e nos trazer agilidade, pois não podemos viver sem faturamento. Em 3 meses aumentamos 130% o nosso faturamento"',
+  },
+  {
+    videoId: "5to2qn2ycj",
+    name: "Maria de Fátima (Proprietária da Fada Imóveis)",
+    quote:
+      '"Nossa imobiliária faturava R$ 8 milhões por ano. Conheci o Altamir no Gigantes 2023, entrei para a mentoria e, naquele mesmo ano, recebemos a meta de R$ 60 milhões e vendemos R$ 69 milhões. Após renovar, em apenas 7 meses, já vendemos R$ 99 milhões. A metodologia dele causou um desenvolvimento estrondoso em mim, como gestora, e em todas as nossas corretoras."',
   },
 ]
 
 export default function GigantesPage() {
   return (
     <div className="min-h-screen text-white overflow-x-hidden" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+      <MetaPixels />
       {/* ─── MOBILE MENU (fora da navbar para evitar stacking context) ─── */}
       <MobileNav />
 
@@ -81,12 +84,17 @@ export default function GigantesPage() {
                 alt="Gigantes do Mercado Imobiliário"
                 className="w-52 md:w-80 mb-5 md:mb-6"
               />
-              <div className="flex items-center gap-2 md:gap-3 text-[12px] md:text-[16px] text-white/90 mb-5 md:mb-6 font-medium">
+              <div className="flex flex-col items-center md:flex-row md:items-center gap-2 md:gap-3 text-[12px] md:text-[16px] text-white/90 mb-5 md:mb-6 font-medium">
                 <svg width="18" height="18" fill="none" viewBox="0 0 24 24" className="shrink-0 opacity-80">
                   <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2" />
                   <path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
-                <span className="tracking-wide">Balneário Camboriú | 15, 16 e 17 de Outubro de 2026</span>
+                <span className="tracking-wide text-center">
+                  <span>Balneário Camboriú</span>
+                  <span className="hidden md:inline"> | </span>
+                  <br className="md:hidden" />
+                  <span>15 e 16 de Outubro de 2026</span>
+                </span>
               </div>
               <h1 className="text-[18px] md:text-[27px] lg:text-[32px] font-black uppercase leading-[1.35] md:leading-[1.4] text-white text-center max-w-[850px] mb-6 md:mb-8">
                 O EVENTO QUE ENTREGA{" "}
@@ -157,6 +165,7 @@ export default function GigantesPage() {
                   alt={`Participantes do evento ${i + 1}`}
                   className="sobre-foto-img"
                   loading="lazy"
+                  style={i === 2 ? { objectPosition: "center 15%" } : undefined}
                 />
               </div>
             ))}
@@ -222,7 +231,17 @@ export default function GigantesPage() {
           {/* Vídeo - Limitado em largura e altura para não empurrar o texto para fora da tela */}
           <div className="w-full max-w-[1550px] mx-auto px-4 md:px-10 flex flex-1 flex-col justify-end relative z-10 pb-0 overflow-hidden">
             <div className="w-full overflow-hidden bg-transparent mb-[-2px]">
-              <WistiaVideo videoId="hwa2nywg4h" className="w-full" />
+              <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
+                <iframe
+                  src="https://player.vimeo.com/video/1188150574?h=fe667f9997&badge=0&autopause=0&player_id=0&app_id=58479"
+                  frameBorder="0"
+                  allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+                  title="GMI 2026 PROMO"
+                />
+              </div>
+              <Script src="https://player.vimeo.com/api/player.js" strategy="afterInteractive" />
             </div>
           </div>
         </section>
@@ -338,12 +357,7 @@ export default function GigantesPage() {
                   EXPERIÊNCIA<br />ALTO PADRÃO
                 </h2>
                 <p className="text-white/85 text-lg md:text-[1.1rem] leading-relaxed mb-8">
-                  A experiência Alto Padrão é uma mentoria de dia inteiro em um
-                  ambiente premium, com o Altemir Rocha, Daniel Zaboto e mais 30
-                  mentorados. Aprofundando o conhecimento sobre como ler pessoas
-                  em 10 minutos com material impresso (apostila) inclusa. Para
-                  que você saia de lá decifrando como corresponder a cada cliente
-                  e entrar na mente e no coração deles rapidamente.
+                  A experiência Alto Padrão é uma mentoria de dia inteiro em um ambiente premium, com o Altemir Rocha, Daniel Zaboto e mais 30 mentorados. Aprofundando o conhecimento sobre como ler pessoas em 10 minutos e A Engenharia da Persusão; com material impresso (apostila) inclusa. Para que você saia de lá decifrando como responder a cada cliente e entrar na mente e no coração deles rapidamente.
                 </p>
                 <div className="flex items-start gap-5 mb-6">
                   <img

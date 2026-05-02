@@ -2,6 +2,24 @@
 
 import { useState } from "react"
 
+const PLAN_WEBHOOK: Record<string, string> = {
+  "LIGHT": "https://webhook.sellflux.app/v2/webhook/custom/cc1ae8b959635b6b68df14a670c361d7",
+  "PREMIUM": "https://webhook.sellflux.app/v2/webhook/custom/2207d6bce3bb9550051d770898bc48d4",
+  "EXPERIÊNCIA\nALTO PADRÃO": "https://webhook.sellflux.app/v2/webhook/custom/784e012a6794d812924a5c54616b3fe5",
+}
+
+const PLAN_TAG: Record<string, string> = {
+  "LIGHT": "GMI2026-LIGHT",
+  "PREMIUM": "GMI2026-PREMIUM",
+  "EXPERIÊNCIA\nALTO PADRÃO": "GMI2026-ALTOPADRAO",
+}
+
+function normalizePhone(raw: string): string {
+  const digits = raw.replace(/\D/g, "")
+  if (digits.startsWith("55") && digits.length >= 12) return `+${digits}`
+  return `+55${digits}`
+}
+
 const TICKETS = [
   {
     name: "LIGHT",
@@ -9,9 +27,10 @@ const TICKETS = [
     lote2: "R$ 997,00",
     lote3: "R$ 1.197,00",
     checkoutUrl: "https://payfast.greenn.com.br/pre-checkout/e24ebcg",
+    confirmacaoUrl: "/confirmacao/light",
     type: "standard" as const,
     items: [
-      "Passaporte dia 1 e 2 do evento",
+      "Passaporte dias 1 e 2 do evento",
       "Caneta Corretor Vencedor",
       "Bloco de anotações GIGANTES",
       "Material dos patrocinadores",
@@ -30,9 +49,10 @@ const TICKETS = [
     lote2: "R$ 1.297,00",
     lote3: "R$ 1.597,00",
     checkoutUrl: "https://payfast.greenn.com.br/pre-checkout/qmzud7r",
+    confirmacaoUrl: "/confirmacao/premium",
     type: "standard" as const,
     items: [
-      "Passaporte dia 1 e 2 do evento",
+      "Passaporte dias 1 e 2 do evento",
       "Caneta Corretor Vencedor",
       "Bloco de anotações GIGANTES",
       "Material dos patrocinadores",
@@ -42,7 +62,7 @@ const TICKETS = [
       "Café durante todo o evento",
       "Biscoitos durante todo o evento",
       "Pasta Corretor Vencedor",
-      "MESAS EM FRENTE AO PALCO",
+      " MESAS atrás do passaporte Alto Padrão",
       "Participação no grupo exclusivo do Whats do Gigantes 2026",
       "Apostila do evento inclusa",
     ],
@@ -53,9 +73,10 @@ const TICKETS = [
     lote2: "R$ 4.997,00",
     lote3: "R$ 5.997,00",
     checkoutUrl: "https://payfast.greenn.com.br/pre-checkout/xdh7huk",
+    confirmacaoUrl: "/confirmacao/alto-padrao",
     type: "premium" as const,
     items: [
-      "Passaporte dia 1 e 2 do evento",
+      "Passaporte dias 1, 2 e 3 do evento",
       "Caneta Corretor Vencedor",
       "Bloco de anotações GIGANTES",
       "Material dos patrocinadores",
@@ -113,23 +134,27 @@ function PassportModal({
     e.preventDefault()
     setLoading(true)
 
-    // Fire-and-forget — a falha no SellFlux nunca bloqueia o checkout
     try {
-      await fetch("/api/capture-lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nome: form.nome,
-          email: form.email,
-          whatsapp: form.whatsapp,
-          plano: ticket.name,
-        }),
-      })
+      const webhookUrl = PLAN_WEBHOOK[ticket.name]
+      if (webhookUrl) {
+        await fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: form.nome,
+            email: form.email,
+            phone: normalizePhone(form.whatsapp),
+            source: "gigantes-2026",
+            tags: [PLAN_TAG[ticket.name]],
+          }),
+          signal: AbortSignal.timeout(8_000),
+        })
+      }
     } catch {
       // silently swallow — o redirecionamento ocorre de qualquer forma
     }
 
-    window.location.href = ticket.checkoutUrl
+    window.location.href = ticket.confirmacaoUrl
   }
 
   return (
@@ -312,11 +337,7 @@ export function TicketsSection() {
 
               const titleClass = isPremium ? "gold-shiny" : "text-white"
 
-              const btnClass = isPremium
-                ? "bg-[#D4A843] text-[#0a1628] hover:bg-[#e0b44f] shadow-[0_4px_20px_rgba(212,168,67,0.3)]"
-                : isMid
-                  ? "border border-white/30 text-white hover:border-white/50 hover:bg-white/5 bg-transparent"
-                  : "border border-white/20 text-white/80 hover:border-white/40 hover:text-white bg-transparent"
+              const btnClass = "bg-[#D4A843] text-[#0a1628] hover:bg-[#e0b44f] shadow-[0_4px_20px_rgba(212,168,67,0.35)] font-black"
 
               const dividerClass = isPremium ? "bg-[#D4A843]/20" : isMid ? "bg-white/15" : "bg-white/8"
               const checkClass = isPremium ? "text-[#22c55e]" : isMid ? "text-[#22c55e]/80" : "text-[#22c55e]/70"

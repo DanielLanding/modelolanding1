@@ -103,7 +103,7 @@
 
 /* ─── Hero ─── */
 .hero-bg {
-  background-image: url('/backgroundSection1');
+  background-image: url('/images/img1.jpg');
   background-size: cover;
   background-position: center;
   position: relative;
@@ -111,7 +111,7 @@
 
 @media (max-width: 768px) {
   .hero-bg {
-    background-image: url('/images/a1.webp');
+    background-image: url('/images/img1.jpg');
     background-position: top center;
     min-height: 100vh !important;
   }
