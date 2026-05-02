@@ -32,24 +32,49 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Plano inválido" }, { status: 400 })
   }
 
-  const dto = {
+  const tag = PLAN_TAG[plano]
+  const phone = normalizePhone(whatsapp)
+
+  const sellfluxDto = {
     name: nome,
     email,
-    phone: normalizePhone(whatsapp),
+    phone,
     source: "gigantes-2026",
-    tags: [PLAN_TAG[plano]],
+    tags: [tag],
   }
 
-  const sfRes = await fetch(webhookUrl, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(dto),
-    signal: AbortSignal.timeout(8_000),
-  })
+  const leadnoseDto = {
+    name: nome,
+    phone,
+    email,
+    tag,
+    description: `Nome: ${nome}, WhatsApp: ${whatsapp}, Email: ${email}`,
+    qualificado: false,
+  }
+
+  const [sfRes, lnRes] = await Promise.all([
+    fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(sellfluxDto),
+      signal: AbortSignal.timeout(8_000),
+    }),
+    fetch("https://bot-api.leadnose.com/leadsdaniel/lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(leadnoseDto),
+      signal: AbortSignal.timeout(8_000),
+    }),
+  ])
 
   if (!sfRes.ok) {
     const detail = await sfRes.text().catch(() => sfRes.statusText)
-    return NextResponse.json({ error: detail }, { status: sfRes.status })
+    return NextResponse.json({ error: `SellFlux: ${detail}` }, { status: sfRes.status })
+  }
+
+  if (!lnRes.ok) {
+    const detail = await lnRes.text().catch(() => lnRes.statusText)
+    return NextResponse.json({ error: `LeadNose: ${detail}` }, { status: lnRes.status })
   }
 
   const data = await sfRes.json().catch(() => null)
