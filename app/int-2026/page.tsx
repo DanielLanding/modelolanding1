@@ -115,7 +115,7 @@ function LeadModal({ onClose }: { onClose: () => void }) {
           )}
 
           <p className="text-white/60 text-sm mb-6 leading-relaxed">
-            Preencha seus dados para conhecer o evento.
+             Preencha seus dados para conhecer mais sobre o evento, e garantir seu passaporte.
           </p>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
