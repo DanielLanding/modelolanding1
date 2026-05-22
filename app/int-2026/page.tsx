@@ -5,8 +5,7 @@ import { MarqueeCarousel } from "@/components/marquee-carousel"
 import { MetaPixels } from "@/components/meta-pixels"
 
 const WEBHOOK_URL =
-  "https://webhook.sellflux.app/v2/webhook/custom/cc1ae8b959635b6b68df14a670c361d7"
-const LEAD_TAG = "GMI2026-INT"
+  "https://webhook.sellflux.app/v2/webhook/custom/9dfd5ed8e674be868004fd9c8ea65a44"
 const REDIRECT_URL = "/"
 
 function normalizePhone(raw: string): string {
@@ -34,8 +33,6 @@ function LeadModal({ onClose }: { onClose: () => void }) {
           name: form.nome,
           email: form.email,
           phone: normalizePhone(form.whatsapp),
-          source: "gigantes-2026-int",
-          tags: [LEAD_TAG],
         }),
         signal: AbortSignal.timeout(8_000),
       })
