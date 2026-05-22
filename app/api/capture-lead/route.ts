@@ -13,6 +13,8 @@ const PLAN_TAG: Record<string, string> = {
 }
 
 function normalizePhone(raw: string): string {
+  const trimmed = raw.trim()
+  if (trimmed.startsWith("+")) return trimmed
   const digits = raw.replace(/\D/g, "")
   if (digits.startsWith("55") && digits.length >= 12) return `+${digits}`
   return `+55${digits}`

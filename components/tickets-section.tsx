@@ -1,6 +1,25 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
+
+const COUNTRIES = [
+  { code: "BR", dial: "+55", flag: "🇧🇷", name: "Brasil" },
+  { code: "US", dial: "+1",  flag: "🇺🇸", name: "EUA" },
+  { code: "PT", dial: "+351", flag: "🇵🇹", name: "Portugal" },
+  { code: "AR", dial: "+54", flag: "🇦🇷", name: "Argentina" },
+  { code: "UY", dial: "+598", flag: "🇺🇾", name: "Uruguai" },
+  { code: "PY", dial: "+595", flag: "🇵🇾", name: "Paraguai" },
+  { code: "CL", dial: "+56", flag: "🇨🇱", name: "Chile" },
+  { code: "CO", dial: "+57", flag: "🇨🇴", name: "Colômbia" },
+  { code: "MX", dial: "+52", flag: "🇲🇽", name: "México" },
+  { code: "ES", dial: "+34", flag: "🇪🇸", name: "Espanha" },
+  { code: "IT", dial: "+39", flag: "🇮🇹", name: "Itália" },
+  { code: "GB", dial: "+44", flag: "🇬🇧", name: "Reino Unido" },
+  { code: "DE", dial: "+49", flag: "🇩🇪", name: "Alemanha" },
+  { code: "FR", dial: "+33", flag: "🇫🇷", name: "França" },
+  { code: "AO", dial: "+244", flag: "🇦🇴", name: "Angola" },
+  { code: "MZ", dial: "+258", flag: "🇲🇿", name: "Moçambique" },
+]
 
 const PLAN_WEBHOOK: Record<string, string> = {
   "LIGHT": "https://webhook.sellflux.app/v2/webhook/custom/cc1ae8b959635b6b68df14a670c361d7",
@@ -14,10 +33,28 @@ const PLAN_TAG: Record<string, string> = {
   "EXPERIÊNCIA\nALTO PADRÃO": "GMI2026-ALTOPADRAO",
 }
 
-function normalizePhone(raw: string): string {
+function normalizePhone(raw: string, dialCode: string = "+55"): string {
   const digits = raw.replace(/\D/g, "")
-  if (digits.startsWith("55") && digits.length >= 12) return `+${digits}`
-  return `+55${digits}`
+  return `${dialCode}${digits}`
+}
+
+function validateNome(v: string): string | null {
+  if (!v.trim()) return "Nome obrigatório"
+  if (v.trim().length < 3) return "Nome muito curto"
+  return null
+}
+
+function validatePhone(v: string): string | null {
+  const digits = v.replace(/\D/g, "")
+  if (!digits) return "Número obrigatório"
+  if (digits.length < 7) return "Número inválido"
+  return null
+}
+
+function validateEmail(v: string): string | null {
+  if (!v.trim()) return "E-mail obrigatório"
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())) return "E-mail inválido"
+  return null
 }
 
 const TICKETS = [
@@ -103,36 +140,92 @@ const TICKETS = [
 ]
 
 type Ticket = (typeof TICKETS)[number]
+type FormErrors = { nome?: string; whatsapp?: string; email?: string }
+type FormTouched = { nome?: boolean; whatsapp?: boolean; email?: boolean }
 
-function PassportModal({
-  ticket,
-  onClose,
-}: {
-  ticket: Ticket
-  onClose: () => void
-}) {
+const ErrorIcon = () => (
+  <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" className="shrink-0">
+    <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 11a1 1 0 01-1-1V8a1 1 0 012 0v4a1 1 0 01-1 1zm0 4a1 1 0 110-2 1 1 0 010 2z" />
+  </svg>
+)
+
+function PassportModal({ ticket, onClose }: { ticket: Ticket; onClose: () => void }) {
   const [form, setForm] = useState({ nome: "", whatsapp: "", email: "" })
+  const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[0])
+  const [showDialDropdown, setShowDialDropdown] = useState(false)
+  const [errors, setErrors] = useState<FormErrors>({})
+  const [touched, setTouched] = useState<FormTouched>({})
+  const [focusedField, setFocusedField] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const dialRef = useRef<HTMLDivElement>(null)
 
   const isPremium = ticket.type === "premium"
   const isMid = ticket.name === "PREMIUM"
 
-  const accentColor = isPremium ? "#D4A843" : isMid ? "#D4A843" : "rgba(255,255,255,0.7)"
   const accentBg = isPremium
     ? "linear-gradient(135deg, #D4A843 0%, #f5d680 50%, #D4A843 100%)"
     : isMid
       ? "linear-gradient(135deg, #c49b30 0%, #D4A843 50%, #c49b30 100%)"
       : "linear-gradient(135deg, #1e3a5f 0%, #2a4d7a 50%, #1e3a5f 100%)"
 
-  const planLabel = isPremium
-    ? "EXPERIÊNCIA ALTO PADRÃO"
-    : isMid
-      ? "PREMIUM"
-      : "LIGHT"
+  const planLabel = isPremium ? "EXPERIÊNCIA ALTO PADRÃO" : isMid ? "PREMIUM" : "LIGHT"
+  const focusColor = isPremium || isMid ? "#D4A843" : "rgba(255,255,255,0.4)"
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dialRef.current && !dialRef.current.contains(e.target as Node)) {
+        setShowDialDropdown(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
+
+  function getBorderColor(field: keyof FormErrors) {
+    if (errors[field] && touched[field]) return "#ef4444"
+    if (focusedField === field) return focusColor
+    return "rgba(255,255,255,0.12)"
+  }
+
+  function getDialBorderColor() {
+    if (errors.whatsapp && touched.whatsapp) return "#ef4444"
+    if (focusedField === "whatsapp" || showDialDropdown) return focusColor
+    return "rgba(255,255,255,0.12)"
+  }
+
+  function handleBlur(field: keyof typeof form) {
+    setFocusedField(null)
+    setTouched((t) => ({ ...t, [field]: true }))
+    const validators = { nome: validateNome, whatsapp: validatePhone, email: validateEmail }
+    const err = validators[field](form[field])
+    setErrors((prev) => ({ ...prev, [field]: err ?? undefined }))
+  }
+
+  function handleChange(field: keyof typeof form, value: string) {
+    setForm((f) => ({ ...f, [field]: value }))
+    if (touched[field]) {
+      const validators = { nome: validateNome, whatsapp: validatePhone, email: validateEmail }
+      const err = validators[field](value)
+      setErrors((prev) => ({ ...prev, [field]: err ?? undefined }))
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    const newErrors: FormErrors = {
+      nome: validateNome(form.nome) ?? undefined,
+      whatsapp: validatePhone(form.whatsapp) ?? undefined,
+      email: validateEmail(form.email) ?? undefined,
+    }
+    setErrors(newErrors)
+    setTouched({ nome: true, whatsapp: true, email: true })
+
+    if (Object.values(newErrors).some(Boolean)) return
+
     setLoading(true)
+
+    const phone = normalizePhone(form.whatsapp, selectedCountry.dial)
 
     try {
       const webhookUrl = PLAN_WEBHOOK[ticket.name]
@@ -143,7 +236,7 @@ function PassportModal({
           body: JSON.stringify({
             name: form.nome,
             email: form.email,
-            phone: normalizePhone(form.whatsapp),
+            phone,
             source: "gigantes-2026",
             tags: [PLAN_TAG[ticket.name]],
           }),
@@ -165,17 +258,23 @@ function PassportModal({
       <div className="absolute inset-0 bg-black/75 backdrop-blur-sm" />
 
       <div
-        className="relative w-full max-w-[420px] rounded-2xl overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.6)]"
-        style={{ background: "#0c1625", border: `1px solid ${isPremium ? "rgba(212,168,67,0.4)" : isMid ? "rgba(212,168,67,0.25)" : "rgba(255,255,255,0.1)"}` }}
+        className="relative w-full max-w-[420px] rounded-2xl shadow-[0_30px_80px_rgba(0,0,0,0.6)]"
+        style={{
+          background: "#0c1625",
+          border: `1px solid ${isPremium ? "rgba(212,168,67,0.4)" : isMid ? "rgba(212,168,67,0.25)" : "rgba(255,255,255,0.1)"}`,
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Accent header */}
         <div
-          className="px-6 py-5 flex items-center justify-between"
+          className="px-6 py-5 flex items-center justify-between rounded-t-2xl"
           style={{ background: accentBg }}
         >
           <div>
-            <p className="text-[10px] font-bold tracking-[0.2em] uppercase opacity-70" style={{ color: isPremium || isMid ? "#0a1628" : "#fff" }}>
+            <p
+              className="text-[10px] font-bold tracking-[0.2em] uppercase opacity-70"
+              style={{ color: isPremium || isMid ? "#0a1628" : "#fff" }}
+            >
               Passaporte
             </p>
             <p
@@ -198,7 +297,7 @@ function PassportModal({
           </button>
         </div>
 
-        {/* Form */}
+        {/* Form body */}
         <div className="px-6 py-7 relative">
           {loading && (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0c1625]/95 z-10 rounded-b-2xl">
@@ -218,65 +317,150 @@ function PassportModal({
             Preencha seus dados para garantir seu passaporte.
           </p>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
+            {/* Nome */}
             <div>
               <label className="block text-white/50 text-[11px] font-bold uppercase tracking-wider mb-1.5">
                 Nome completo
               </label>
               <input
                 type="text"
-                required
                 value={form.nome}
-                onChange={(e) => setForm((f) => ({ ...f, nome: e.target.value }))}
-                placeholder="Seu nome"
-                className="w-full rounded-lg px-4 py-3 text-sm text-white placeholder-white/25 outline-none transition-all"
+                onChange={(e) => handleChange("nome", e.target.value)}
+                onFocus={() => setFocusedField("nome")}
+                onBlur={() => handleBlur("nome")}
+                placeholder="Seu nome completo"
+                className="w-full rounded-lg px-4 py-3 text-sm text-white placeholder-white/25 outline-none transition-colors duration-150"
                 style={{
                   background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.12)",
+                  border: `1px solid ${getBorderColor("nome")}`,
                 }}
-                onFocus={(e) => (e.currentTarget.style.borderColor = isPremium || isMid ? "#D4A843" : "rgba(255,255,255,0.4)")}
-                onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)")}
               />
+              {errors.nome && touched.nome && (
+                <p className="text-red-400 text-[11px] mt-1.5 flex items-center gap-1">
+                  <ErrorIcon /> {errors.nome}
+                </p>
+              )}
             </div>
 
+            {/* WhatsApp com seletor de país */}
             <div>
               <label className="block text-white/50 text-[11px] font-bold uppercase tracking-wider mb-1.5">
                 WhatsApp
               </label>
-              <input
-                type="tel"
-                required
-                value={form.whatsapp}
-                onChange={(e) => setForm((f) => ({ ...f, whatsapp: e.target.value }))}
-                placeholder="(00) 00000-0000"
-                className="w-full rounded-lg px-4 py-3 text-sm text-white placeholder-white/25 outline-none transition-all"
-                style={{
-                  background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.12)",
-                }}
-                onFocus={(e) => (e.currentTarget.style.borderColor = isPremium || isMid ? "#D4A843" : "rgba(255,255,255,0.4)")}
-                onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)")}
-              />
+              <div className="flex gap-2">
+                {/* Country dial selector */}
+                <div className="relative" ref={dialRef}>
+                  <button
+                    type="button"
+                    onClick={() => setShowDialDropdown((v) => !v)}
+                    className="flex items-center gap-1.5 rounded-lg px-3 py-3 text-sm text-white outline-none transition-colors duration-150 whitespace-nowrap"
+                    style={{
+                      background: "rgba(255,255,255,0.05)",
+                      border: `1px solid ${getDialBorderColor()}`,
+                      minWidth: "82px",
+                    }}
+                  >
+                    <span className="text-base leading-none">{selectedCountry.flag}</span>
+                    <span className="text-white/70 text-xs font-medium">{selectedCountry.dial}</span>
+                    <svg
+                      width="10" height="10" viewBox="0 0 24 24" fill="none"
+                      className="opacity-40 ml-auto transition-transform duration-200"
+                      style={{ transform: showDialDropdown ? "rotate(180deg)" : "rotate(0deg)" }}
+                    >
+                      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                    </svg>
+                  </button>
+
+                  {showDialDropdown && (
+                    <div
+                      className="absolute top-full left-0 mt-1.5 rounded-xl overflow-y-auto shadow-2xl z-50"
+                      style={{
+                        background: "#0d1829",
+                        border: "1px solid rgba(255,255,255,0.12)",
+                        maxHeight: "190px",
+                        minWidth: "214px",
+                        scrollbarWidth: "thin",
+                        WebkitOverflowScrolling: "touch",
+                        overscrollBehavior: "contain",
+                      }}
+                      onMouseDown={(e) => e.stopPropagation()}
+                    >
+                      {COUNTRIES.map((country) => {
+                        const isSelected = country.code === selectedCountry.code
+                        return (
+                          <button
+                            key={country.code}
+                            type="button"
+                            onClick={() => {
+                              setSelectedCountry(country)
+                              setShowDialDropdown(false)
+                            }}
+                            className="w-full flex items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors duration-100"
+                            style={{ background: isSelected ? "rgba(255,255,255,0.08)" : "transparent" }}
+                            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.08)" }}
+                            onMouseLeave={(e) => { e.currentTarget.style.background = isSelected ? "rgba(255,255,255,0.08)" : "transparent" }}
+                          >
+                            <span className="text-base">{country.flag}</span>
+                            <span className="flex-1 text-white/80 text-xs">{country.name}</span>
+                            <span className="text-white/40 text-xs font-medium">{country.dial}</span>
+                          </button>
+                        )
+                      })}
+                    </div>
+                  )}
+                </div>
+
+                {/* Phone number input */}
+                <input
+                  type="tel"
+                  inputMode="numeric"
+                  value={form.whatsapp}
+                  onChange={(e) => {
+                    const filtered = e.target.value.replace(/[^\d\s\-\(\)]/g, "").slice(0, 15)
+                    handleChange("whatsapp", filtered)
+                  }}
+                  onFocus={() => setFocusedField("whatsapp")}
+                  onBlur={() => handleBlur("whatsapp")}
+                  placeholder={selectedCountry.code === "BR" ? "(00) 00000-0000" : "Número"}
+                  maxLength={15}
+                  className="flex-1 rounded-lg px-4 py-3 text-sm text-white placeholder-white/25 outline-none transition-colors duration-150"
+                  style={{
+                    background: "rgba(255,255,255,0.05)",
+                    border: `1px solid ${getBorderColor("whatsapp")}`,
+                  }}
+                />
+              </div>
+              {errors.whatsapp && touched.whatsapp && (
+                <p className="text-red-400 text-[11px] mt-1.5 flex items-center gap-1">
+                  <ErrorIcon /> {errors.whatsapp}
+                </p>
+              )}
             </div>
 
+            {/* Email */}
             <div>
               <label className="block text-white/50 text-[11px] font-bold uppercase tracking-wider mb-1.5">
                 E-mail
               </label>
               <input
                 type="email"
-                required
                 value={form.email}
-                onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                onChange={(e) => handleChange("email", e.target.value)}
+                onFocus={() => setFocusedField("email")}
+                onBlur={() => handleBlur("email")}
                 placeholder="seu@email.com"
-                className="w-full rounded-lg px-4 py-3 text-sm text-white placeholder-white/25 outline-none transition-all"
+                className="w-full rounded-lg px-4 py-3 text-sm text-white placeholder-white/25 outline-none transition-colors duration-150"
                 style={{
                   background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.12)",
+                  border: `1px solid ${getBorderColor("email")}`,
                 }}
-                onFocus={(e) => (e.currentTarget.style.borderColor = isPremium || isMid ? "#D4A843" : "rgba(255,255,255,0.4)")}
-                onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)")}
               />
+              {errors.email && touched.email && (
+                <p className="text-red-400 text-[11px] mt-1.5 flex items-center gap-1">
+                  <ErrorIcon /> {errors.email}
+                </p>
+              )}
             </div>
 
             <button
@@ -336,9 +520,7 @@ export function TicketsSection() {
                   : "border border-white/10 bg-[#0c1625]/80"
 
               const titleClass = isPremium ? "gold-shiny" : "text-white"
-
               const btnClass = "bg-[#D4A843] text-[#0a1628] hover:bg-[#e0b44f] shadow-[0_4px_20px_rgba(212,168,67,0.35)] font-black"
-
               const dividerClass = isPremium ? "bg-[#D4A843]/20" : isMid ? "bg-white/15" : "bg-white/8"
               const checkClass = isPremium ? "text-[#22c55e]" : isMid ? "text-[#22c55e]/80" : "text-[#22c55e]/70"
 
@@ -347,16 +529,13 @@ export function TicketsSection() {
                   key={ticket.name}
                   className={`rounded-2xl p-7 md:p-8 flex flex-col ${cardClass}`}
                 >
-                  {/* Title */}
                   <h3
                     className={`font-black text-xl md:text-2xl uppercase leading-tight mb-5 whitespace-pre-line text-center ${titleClass}`}
                   >
                     {ticket.name}
                   </h3>
 
-                  {/* Lotes pricing block */}
                   <div className="mb-5 rounded-xl overflow-hidden" style={{ border: isPremium ? "1px solid rgba(212,168,67,0.2)" : "1px solid rgba(255,255,255,0.08)" }}>
-                    {/* Lote 1 — destaque */}
                     <div className="px-4 py-3" style={{ background: isPremium ? "rgba(212,168,67,0.12)" : isMid ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.04)" }}>
                       <div className="flex items-center justify-between">
                         <span className="text-[11px] font-bold tracking-wider uppercase" style={{ color: isPremium ? "#D4A843" : "rgba(255,255,255,0.5)" }}>
@@ -365,23 +544,18 @@ export function TicketsSection() {
                         <span className="font-black text-xl md:text-2xl text-white">{ticket.price}</span>
                       </div>
                     </div>
-                    {/* Divider */}
                     <div style={{ height: "1px", background: isPremium ? "rgba(212,168,67,0.12)" : "rgba(255,255,255,0.06)" }} />
-                    {/* Lote 2 */}
                     <div className="px-4 py-2.5 flex items-center justify-between">
                       <span className="text-[11px] font-semibold tracking-wide text-white/35 uppercase">Lote 2</span>
                       <span className="text-sm text-white/35 font-bold">{ticket.lote2}</span>
                     </div>
-                    {/* Divider */}
                     <div style={{ height: "1px", background: "rgba(255,255,255,0.04)" }} />
-                    {/* Lote 3 */}
                     <div className="px-4 py-2.5 flex items-center justify-between">
                       <span className="text-[11px] font-semibold tracking-wide text-white/25 uppercase">Lote 3</span>
                       <span className="text-sm text-white/25 font-bold">{ticket.lote3}</span>
                     </div>
                   </div>
 
-                  {/* CTA */}
                   <button
                     type="button"
                     onClick={() => setActiveTicket(ticket)}
@@ -390,10 +564,8 @@ export function TicketsSection() {
                     COMPRAR PASSAPORTE
                   </button>
 
-                  {/* Divider */}
                   <div className={`w-full h-px mb-6 ${dividerClass}`} />
 
-                  {/* Items */}
                   <ul className="space-y-3 flex-1">
                     {ticket.items.map((item) => (
                       <li key={item} className="flex items-start gap-2.5 text-white/65 text-[13px] leading-relaxed">
